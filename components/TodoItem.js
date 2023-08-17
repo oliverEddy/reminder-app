@@ -2,6 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 
 const TodoItem = ({ item }) => {
+  console.log("Rendering TodoItem:", item);
   return (
     <View
       style={{

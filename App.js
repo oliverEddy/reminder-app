@@ -23,6 +23,7 @@ export default function App() {
       timestamp: dateTime.toString(),
       key: new Date().getTime().toString(),
     });
+    console.log("New data before setListData:", newData);
     setListData(newData);
     setDateTimePickerMode("date");
   };

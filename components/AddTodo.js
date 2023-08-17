@@ -14,19 +14,16 @@ const styles = StyleSheet.create({
 // TIP: this component has bad naming that creates confusion
 const AddTodo = ({ add }) => {
   const [name, setName] = useState("");
-  const newAdd = (n) => {
-    newName(n.name);
+
+  const handleAddPress = () => {
+    console.log("Adding task:", name);
+    if (name.trim() !== "") {
+      add(name);
+      console.log("Task added!");
+      setName(""); // Clear the input field after adding the task
+    }
   };
-  const newAddName = (e) => {
-    setName(e);
-  };
-  const newName = (a) => {
-    newAddName(a);
-  };
-  const test = () => {
-    console.log(name);
-    add(name);
-  };
+
   return (
     <View style={styles.container}>
       <View style={styles.newContainer}>
@@ -34,10 +31,10 @@ const AddTodo = ({ add }) => {
           placeholder="Enter task name..."
           style={styles.text}
           value={name}
-          onChangeText={(e) => newAddName(e)}
-        ></TextInput>
+          onChangeText={setName}
+        />
       </View>
-      <Button title="Add" onPress={newAdd}></Button>
+      <Button title="Add" onPress={handleAddPress} />
     </View>
   );
 };

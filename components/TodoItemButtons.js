@@ -9,7 +9,10 @@ const TodoItemButtons = (data, rowMap, deleteRow) => (
         backgroundColor: pressed ? "blue" : "aqua",
         width: 50,
       })}
-      onPress={() => deleteRow(rowMap, data.item.key)}
+      onPress={() => {
+        console.log("Deleting item with key:", data.item.key);
+        deleteRow(rowMap, data.item.key);
+      }}
     >
       <MaterialIcons name="delete" />
     </Pressable>
