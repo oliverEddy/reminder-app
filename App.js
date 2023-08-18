@@ -31,16 +31,6 @@ export default function App() {
     setDateTimePickerMode(mode);
   };
 
-  let isMounted = false;
-
-  useEffect(() => {
-    isMounted = true;
-    console.warn("app mounted");
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
   const closeRow = (rowMap, key) => {
     if (rowMap[key]) {
       rowMap[key].closeRow();
@@ -86,14 +76,14 @@ export default function App() {
           <SwipeListView
             data={tasks}
             renderItem={TodoItem}
-            renderHiddenItem={(data, rowMap) =>
-              TodoItemButtons(data, rowMap, (rowMap, deleteKey) => {
-                closeRow(rowMap, deleteKey);
+            renderHiddenItem={(hiddenData, rowMap) =>
+              TodoItemButtons(hiddenData, rowMap, (rowMap, itemKeyToDelete) => {
+                closeRow(rowMap, itemKeyToDelete);
                 const newTasks = [...tasks];
-                const index = newTasks.findIndex(
-                  (task) => task.key === deleteKey
+                const indexToRemove = newTasks.findIndex(
+                  (task) => task.key === itemKeyToDelete
                 );
-                newTasks.splice(index, 1);
+                newTasks.splice(indexToRemove, 1);
                 setTasks(newTasks);
               })
             }
