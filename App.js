@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { useEffect } from "react";
 import TodoItem from "./components/TodoItem";
 import TodoItemButtons from "./components/TodoItemButtons";
 import AddTodo from "./components/AddTodo";
@@ -10,38 +8,28 @@ import { getStorage, updateStorage } from "./api/localStorage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function App() {
-  const [listData, setListData] = useState([]);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [dateTimePickerMode, setDateTimePickerMode] = useState("date");
+  const [tasks, setTasks] = useState([]);
+  const [isDatePickerVisible, setDatePickerVisible] = useState(false);
+  const [currentDateTimePickerMode, setDateTimePickerMode] = useState("date");
   const [taskName, setTaskName] = useState("");
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDateTime, setSelectedDateTime] = useState(new Date());
 
   const addTask = (dateTime) => {
-    const newData = [...listData];
-    newData.push({
+    const newTasks = [...tasks];
+    newTasks.push({
       name: taskName,
       timestamp: dateTime.toString(),
       key: new Date().getTime().toString(),
     });
-    console.log("New data before setListData:", newData);
-    setListData(newData);
+
+    setTasks(newTasks);
     setDateTimePickerMode("date");
   };
 
-  const datePickerMode = (currentMode) => {
-    setShowDatePicker(true);
-    setDateTimePickerMode(currentMode);
+  const datePickerMode = (mode) => {
+    setDatePickerVisible(true);
+    setDateTimePickerMode(mode);
   };
-
-  let isMounted = false;
-
-  useEffect(() => {
-    isMounted = true;
-    console.warn("app mounted");
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const closeRow = (rowMap, key) => {
     if (rowMap[key]) {
@@ -74,10 +62,9 @@ export default function App() {
         </Text>
         <AddTodo
           add={(name) => {
-            // TIP: handles add button being pressed
             setTaskName(name);
-            setSelectedDate(new Date());
-            setShowDatePicker(true);
+            setSelectedDateTime(new Date());
+            setDatePickerVisible(true);
           }}
         />
         <View
@@ -87,16 +74,17 @@ export default function App() {
           }}
         >
           <SwipeListView
-            data={listData}
+            data={tasks}
             renderItem={TodoItem}
-            renderHiddenItem={(data, rowMap) =>
-              TodoItemButtons(data, rowMap, (rowMap, deleteThis) => {
-                // TIP: deletes a task/row
-                closeRow(rowMap, deleteThis);
-                const newData = [...listData];
-                const i = newData.findIndex((rowItem) => rowItem.key === 0);
-                newData.splice(i, 1);
-                setListData(newData);
+            renderHiddenItem={(hiddenData, rowMap) =>
+              TodoItemButtons(hiddenData, rowMap, (rowMap, itemKeyToDelete) => {
+                closeRow(rowMap, itemKeyToDelete);
+                const newTasks = [...tasks];
+                const indexToRemove = newTasks.findIndex(
+                  (task) => task.key === itemKeyToDelete
+                );
+                newTasks.splice(indexToRemove, 1);
+                setTasks(newTasks);
               })
             }
             rightOpenValue={-130}
@@ -108,28 +96,28 @@ export default function App() {
         </View>
       </View>
 
-      {showDatePicker ? (
+      {isDatePickerVisible ? (
         <DateTimePicker
           testID="dateTimePicker"
           value={new Date()}
           // @ts-ignore
-          mode={dateTimePickerMode}
+          mode={currentDateTimePickerMode}
           onChange={(event, dateString) => {
-            setShowDatePicker(false);
+            setDatePickerVisible(false);
             if (dateString) {
-              if (dateTimePickerMode === "date") {
+              if (currentDateTimePickerMode === "date") {
                 const date = new Date(dateString) || new Date();
-                setSelectedDate(date);
+                setSelectedDateTime(date);
                 setDateTimePickerMode("time");
-                setShowDatePicker(true);
-              } else if (dateTimePickerMode === "time") {
+                setDatePickerVisible(true);
+              } else if (currentDateTimePickerMode === "time") {
                 const time = new Date(dateString) || new Date();
                 const hours = time.getHours();
                 const minutes = time.getMinutes();
                 const seconds = 0;
-                const newDate = new Date(selectedDate);
+                const newDate = new Date(selectedDateTime);
                 newDate.setHours(hours, minutes, seconds);
-                setSelectedDate(newDate);
+                setSelectedDateTime(newDate);
                 addTask(new Date());
               }
             } else {
