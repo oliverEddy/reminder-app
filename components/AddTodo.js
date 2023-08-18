@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 import { TextInput, View, Button, StyleSheet } from "react-native";
 
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: 40,
+    flexDirection: "row",
+  },
+  newContainer: { flexGrow: 1 },
+  text: { width: "100%", height: "100%" },
+});
+
+// TIP: this component has bad naming that creates confusion
 const AddTodo = ({ add }) => {
   const [name, setName] = useState("");
 
-  const clearInput = () => {
-    setName("");
-  };
-
   const handleAddPress = () => {
-    const trimmedName = name.trim();
-    if (trimmedName !== "") {
-      add(trimmedName);
-      clearInput();
+    console.log("Adding task:", name);
+    if (name.trim() !== "") {
+      add(name);
+      console.log("Task added!");
+      setName(""); // Clear the input field after adding the task
     }
   };
 
@@ -30,15 +38,5 @@ const AddTodo = ({ add }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: 40,
-    flexDirection: "row",
-  },
-  newContainer: { flexGrow: 1 },
-  text: { width: "100%", height: "100%" },
-});
 
 export default AddTodo;
