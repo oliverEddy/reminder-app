@@ -9,10 +9,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [dateTimePickerMode, setDateTimePickerMode] = useState("date");
+  const [isDatePickerVisible, setDatePickerVisible] = useState(false);
+  const [currentDateTimePickerMode, setDateTimePickerMode] = useState("date");
   const [taskName, setTaskName] = useState("");
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDateTime, setSelectedDateTime] = useState(new Date());
 
   const addTask = (dateTime) => {
     const newTasks = [...tasks];
@@ -26,9 +26,9 @@ export default function App() {
     setDateTimePickerMode("date");
   };
 
-  const datePickerMode = (currentMode) => {
-    setShowDatePicker(true);
-    setDateTimePickerMode(currentMode);
+  const datePickerMode = (mode) => {
+    setDatePickerVisible(true);
+    setDateTimePickerMode(mode);
   };
 
   let isMounted = false;
@@ -73,8 +73,8 @@ export default function App() {
         <AddTodo
           add={(name) => {
             setTaskName(name);
-            setSelectedDate(new Date());
-            setShowDatePicker(true);
+            setSelectedDateTime(new Date());
+            setDatePickerVisible(true);
           }}
         />
         <View
@@ -87,11 +87,11 @@ export default function App() {
             data={tasks}
             renderItem={TodoItem}
             renderHiddenItem={(data, rowMap) =>
-              TodoItemButtons(data, rowMap, (rowMap, deleteThis) => {
-                closeRow(rowMap, deleteThis);
+              TodoItemButtons(data, rowMap, (rowMap, deleteKey) => {
+                closeRow(rowMap, deleteKey);
                 const newTasks = [...tasks];
                 const index = newTasks.findIndex(
-                  (task) => task.key === deleteThis
+                  (task) => task.key === deleteKey
                 );
                 newTasks.splice(index, 1);
                 setTasks(newTasks);
@@ -106,28 +106,28 @@ export default function App() {
         </View>
       </View>
 
-      {showDatePicker ? (
+      {isDatePickerVisible ? (
         <DateTimePicker
           testID="dateTimePicker"
           value={new Date()}
           // @ts-ignore
-          mode={dateTimePickerMode}
+          mode={currentDateTimePickerMode}
           onChange={(event, dateString) => {
-            setShowDatePicker(false);
+            setDatePickerVisible(false);
             if (dateString) {
-              if (dateTimePickerMode === "date") {
+              if (currentDateTimePickerMode === "date") {
                 const date = new Date(dateString) || new Date();
-                setSelectedDate(date);
+                setSelectedDateTime(date);
                 setDateTimePickerMode("time");
-                setShowDatePicker(true);
-              } else if (dateTimePickerMode === "time") {
+                setDatePickerVisible(true);
+              } else if (currentDateTimePickerMode === "time") {
                 const time = new Date(dateString) || new Date();
                 const hours = time.getHours();
                 const minutes = time.getMinutes();
                 const seconds = 0;
-                const newDate = new Date(selectedDate);
+                const newDate = new Date(selectedDateTime);
                 newDate.setHours(hours, minutes, seconds);
-                setSelectedDate(newDate);
+                setSelectedDateTime(newDate);
                 addTask(new Date());
               }
             } else {
