@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { useEffect } from "react";
 import TodoItem from "./components/TodoItem";
 import TodoItemButtons from "./components/TodoItemButtons";
 import AddTodo from "./components/AddTodo";
@@ -10,21 +8,21 @@ import { getStorage, updateStorage } from "./api/localStorage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function App() {
-  const [listData, setListData] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [dateTimePickerMode, setDateTimePickerMode] = useState("date");
   const [taskName, setTaskName] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const addTask = (dateTime) => {
-    const newData = [...listData];
-    newData.push({
+    const newTasks = [...tasks];
+    newTasks.push({
       name: taskName,
       timestamp: dateTime.toString(),
       key: new Date().getTime().toString(),
     });
-    console.log("New data before setListData:", newData);
-    setListData(newData);
+
+    setTasks(newTasks);
     setDateTimePickerMode("date");
   };
 
@@ -74,7 +72,6 @@ export default function App() {
         </Text>
         <AddTodo
           add={(name) => {
-            // TIP: handles add button being pressed
             setTaskName(name);
             setSelectedDate(new Date());
             setShowDatePicker(true);
@@ -87,16 +84,17 @@ export default function App() {
           }}
         >
           <SwipeListView
-            data={listData}
+            data={tasks}
             renderItem={TodoItem}
             renderHiddenItem={(data, rowMap) =>
               TodoItemButtons(data, rowMap, (rowMap, deleteThis) => {
-                // TIP: deletes a task/row
                 closeRow(rowMap, deleteThis);
-                const newData = [...listData];
-                const i = newData.findIndex((rowItem) => rowItem.key === 0);
-                newData.splice(i, 1);
-                setListData(newData);
+                const newTasks = [...tasks];
+                const index = newTasks.findIndex(
+                  (task) => task.key === deleteThis
+                );
+                newTasks.splice(index, 1);
+                setTasks(newTasks);
               })
             }
             rightOpenValue={-130}
