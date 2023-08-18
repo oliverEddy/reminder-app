@@ -26,11 +26,6 @@ export default function App() {
     setDateTimePickerMode("date");
   };
 
-  const datePickerMode = (mode) => {
-    setDatePickerVisible(true);
-    setDateTimePickerMode(mode);
-  };
-
   const closeRow = (rowMap, key) => {
     if (rowMap[key]) {
       rowMap[key].closeRow();
@@ -39,6 +34,43 @@ export default function App() {
 
   const onRowDidOpen = (rowKey) => {
     console.log("This row opened", rowKey);
+  };
+
+  const handleTaskAdd = (name) => {
+    setTaskName(name);
+    setSelectedDateTime(new Date());
+    setDatePickerVisible(true);
+  };
+
+  const handleDateTimeChange = (event, dateString) => {
+    setDatePickerVisible(false);
+    if (dateString) {
+      if (currentDateTimePickerMode === "date") {
+        handleDateChange(dateString);
+      } else if (currentDateTimePickerMode === "time") {
+        handleTimeChange(dateString);
+      }
+    } else {
+      setDateTimePickerMode("date");
+    }
+  };
+
+  const handleDateChange = (dateString) => {
+    const date = new Date(dateString) || new Date();
+    setSelectedDateTime(date);
+    setDateTimePickerMode("time");
+    setDatePickerVisible(true);
+  };
+
+  const handleTimeChange = (dateString) => {
+    const time = new Date(dateString) || new Date();
+    const hours = time.getHours();
+    const minutes = time.getMinutes();
+    const seconds = 0;
+    const newDate = new Date(selectedDateTime);
+    newDate.setHours(hours, minutes, seconds);
+    setSelectedDateTime(newDate);
+    addTask(new Date());
   };
 
   return (
@@ -60,13 +92,7 @@ export default function App() {
         >
           Reminders
         </Text>
-        <AddTodo
-          add={(name) => {
-            setTaskName(name);
-            setSelectedDateTime(new Date());
-            setDatePickerVisible(true);
-          }}
-        />
+        <AddTodo add={handleTaskAdd} />
         <View
           style={{
             backgroundColor: "white",
@@ -102,28 +128,7 @@ export default function App() {
           value={new Date()}
           // @ts-ignore
           mode={currentDateTimePickerMode}
-          onChange={(event, dateString) => {
-            setDatePickerVisible(false);
-            if (dateString) {
-              if (currentDateTimePickerMode === "date") {
-                const date = new Date(dateString) || new Date();
-                setSelectedDateTime(date);
-                setDateTimePickerMode("time");
-                setDatePickerVisible(true);
-              } else if (currentDateTimePickerMode === "time") {
-                const time = new Date(dateString) || new Date();
-                const hours = time.getHours();
-                const minutes = time.getMinutes();
-                const seconds = 0;
-                const newDate = new Date(selectedDateTime);
-                newDate.setHours(hours, minutes, seconds);
-                setSelectedDateTime(newDate);
-                addTask(new Date());
-              }
-            } else {
-              setDateTimePickerMode("date");
-            }
-          }}
+          onChange={handleDateTimeChange}
         />
       ) : null}
     </View>
