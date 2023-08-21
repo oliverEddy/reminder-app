@@ -4,6 +4,7 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import TodoItem from "./components/TodoItem";
 import TodoItemButtons from "./components/TodoItemButtons";
 import AddTodo from "./components/AddTodo";
+import TaskList from "./components/TaskList.js";
 import { getStorage, updateStorage } from "./api/localStorage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -73,6 +74,11 @@ export default function App() {
     addTask(new Date());
   };
 
+  const handleDeleteTask = (itemKeyToDelete) => {
+    const newTasks = tasks.filter((task) => task.key !== itemKeyToDelete);
+    setTasks(newTasks);
+  };
+
   return (
     <View style={{ height: "100%" }}>
       <View
@@ -99,25 +105,10 @@ export default function App() {
             flex: 1,
           }}
         >
-          <SwipeListView
-            data={tasks}
-            renderItem={TodoItem}
-            renderHiddenItem={(hiddenData, rowMap) =>
-              TodoItemButtons(hiddenData, rowMap, (rowMap, itemKeyToDelete) => {
-                closeRow(rowMap, itemKeyToDelete);
-                const newTasks = [...tasks];
-                const indexToRemove = newTasks.findIndex(
-                  (task) => task.key === itemKeyToDelete
-                );
-                newTasks.splice(indexToRemove, 1);
-                setTasks(newTasks);
-              })
-            }
-            rightOpenValue={-130}
-            previewRowKey={"0"}
-            previewOpenValue={-40}
-            previewOpenDelay={3000}
-            onRowDidOpen={onRowDidOpen}
+          <TaskList
+            tasks={tasks}
+            closeRow={closeRow}
+            onDeleteTask={handleDeleteTask} // Pass the onDeleteTask function
           />
         </View>
       </View>
