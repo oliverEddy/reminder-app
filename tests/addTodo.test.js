@@ -14,3 +14,15 @@ test('handleAddPress adds task when "Add" button is pressed', () => {
 
   expect(addMock).toHaveBeenCalledWith("New Task");
 });
+test("handleAddPress does not add task with empty name", () => {
+  const addMock = jest.fn();
+  const { getByPlaceholderText, getByText } = render(<AddTodo add={addMock} />);
+
+  const input = getByPlaceholderText("Enter task name...");
+  const addButton = getByText("Add");
+
+  fireEvent.changeText(input, "");
+  fireEvent.press(addButton);
+
+  expect(addMock).not.toHaveBeenCalled();
+});
