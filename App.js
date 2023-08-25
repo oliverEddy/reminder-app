@@ -71,7 +71,7 @@ export default function App() {
     const newDate = new Date(selectedDateTime);
     newDate.setHours(hours, minutes, seconds);
     setSelectedDateTime(newDate);
-    addTask(new Date());
+    addTask(selectedDateTime);
   };
 
   const handleDeleteTask = (itemKeyToDelete) => {
