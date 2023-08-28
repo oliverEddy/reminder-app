@@ -33,8 +33,9 @@
   "private": true,
   "jest": {
     "preset": "jest-expo",
+    "setupFiles": ["./setup.js"],
     "transform": {
       "^.+\\.[jt]sx?$": "babel-jest"
     }
-  }
+  } 
 }
