@@ -32,6 +32,7 @@ export default function App() {
     });
 
     setTasks(newTasks);
+    scheduleNotification(dateTime, taskName, "Your task is due!");
     updateStorage(newTasks); // Save tasks to local storage
     setDateTimePickerMode("date");
   };
@@ -80,7 +81,7 @@ export default function App() {
     const newDate = new Date(selectedDateTime);
     newDate.setHours(hours, minutes, seconds);
     setSelectedDateTime(newDate);
-    addTask(selectedDateTime);
+    addTask(newDate); // Pass the updated selectedDateTime to addTask
   };
 
   const handleDeleteTask = (itemKeyToDelete) => {
