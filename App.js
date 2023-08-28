@@ -15,6 +15,14 @@ export default function App() {
   const [taskName, setTaskName] = useState("");
   const [selectedDateTime, setSelectedDateTime] = useState(new Date());
 
+  useEffect(() => {
+    async function fetchTasks() {
+      const storedTasks = await getStorage();
+      setTasks(storedTasks);
+    }
+    fetchTasks();
+  }, []);
+
   const addTask = (dateTime) => {
     const newTasks = [...tasks];
     newTasks.push({
@@ -24,6 +32,7 @@ export default function App() {
     });
 
     setTasks(newTasks);
+    updateStorage(newTasks); // Save tasks to local storage
     setDateTimePickerMode("date");
   };
 
@@ -77,6 +86,7 @@ export default function App() {
   const handleDeleteTask = (itemKeyToDelete) => {
     const newTasks = tasks.filter((task) => task.key !== itemKeyToDelete);
     setTasks(newTasks);
+    updateStorage(newTasks); // Save tasks to local storage
   };
 
   return (
@@ -108,7 +118,7 @@ export default function App() {
           <TaskList
             tasks={tasks}
             closeRow={closeRow}
-            onDeleteTask={handleDeleteTask} // Pass the onDeleteTask function
+            onDeleteTask={handleDeleteTask}
           />
         </View>
       </View>
