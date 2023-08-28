@@ -31,5 +31,23 @@ describe("localStorage", () => {
     expect(retrievedTasks).toEqual(tasks);
   });
 
-  // Add more tests if needed
+  it("removes tasks from storage when deleted", async () => {
+    const initialTasks = [
+      { name: "Task 1", dueDateTimestamp: "12341234", key: "1" },
+      { name: "Task 2", dueDateTimestamp: "35234234", key: "2" },
+    ];
+    AsyncStorage.setItem("reminder-list", JSON.stringify(initialTasks));
+
+    const deletedTaskKey = "1";
+    const remainingTasks = initialTasks.filter(
+      (task) => task.key !== deletedTaskKey
+    );
+
+    await updateStorage(remainingTasks);
+
+    const storedTasks = await AsyncStorage.getItem("reminder-list");
+    expect(JSON.parse(storedTasks)).toEqual(
+      expect.arrayContaining(remainingTasks)
+    );
+  });
 });
