@@ -14,6 +14,7 @@ export default function App() {
   const [currentDateTimePickerMode, setDateTimePickerMode] = useState("date");
   const [taskName, setTaskName] = useState("");
   const [selectedDateTime, setSelectedDateTime] = useState(new Date());
+
   const addTask = (dateTime) => {
     const newTasks = [...tasks];
     newTasks.push({
@@ -23,7 +24,6 @@ export default function App() {
     });
 
     setTasks(newTasks);
-    scheduleNotification(dateTime, taskName, "Your task is due!");
     setDateTimePickerMode("date");
   };
 
@@ -69,11 +69,9 @@ export default function App() {
     const minutes = time.getMinutes();
     const seconds = 0;
     const newDate = new Date(selectedDateTime);
-
-    // Set the time based on the selected hours and minutes
     newDate.setHours(hours, minutes, seconds);
     setSelectedDateTime(newDate);
-    addTask(newDate); // Pass the updated selectedDateTime to addTask
+    addTask(selectedDateTime);
   };
 
   const handleDeleteTask = (itemKeyToDelete) => {
