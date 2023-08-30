@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
 import TodoItem from "./components/TodoItem";
 import TodoItemButtons from "./components/TodoItemButtons";
@@ -8,6 +8,7 @@ import TaskList from "./components/TaskList.js";
 import { getStorage, updateStorage } from "./api/localStorage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { setupNotifications, scheduleNotification } from "./api/notification";
+import { authenticateAsync } from "expo-local-authentication";
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
@@ -15,6 +16,7 @@ export default function App() {
   const [currentDateTimePickerMode, setDateTimePickerMode] = useState("date");
   const [taskName, setTaskName] = useState("");
   const [selectedDateTime, setSelectedDateTime] = useState(new Date());
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     async function fetchTasks() {
@@ -92,49 +94,82 @@ export default function App() {
     updateStorage(newTasks); // Save tasks to local storage
   };
 
+  const handleFingerprintAuth = async () => {
+    try {
+      const { success } = await authenticateAsync();
+      if (success) {
+        setIsAuthenticated(true);
+      } else {
+        // Handle authentication failure
+      }
+    } catch (error) {
+      // Handle error
+    }
+  };
+
   return (
-    <View style={{ height: "100%" }}>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          justifyContent: "space-around",
-          marginTop: 50,
-          height: "100%",
-        }}
-      >
-        <Text
-          style={{
-            textAlign: "center",
-            fontSize: 20,
-          }}
-        >
-          Reminders
-        </Text>
-        <AddTodo add={handleTaskAdd} />
-        <View
-          style={{
-            backgroundColor: "white",
-            flex: 1,
-          }}
-        >
-          <TaskList
-            tasks={tasks}
-            closeRow={closeRow}
-            onDeleteTask={handleDeleteTask}
-          />
-        </View>
+    <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        {/* Display Tasks if Authenticated */}
+        {isAuthenticated && (
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "space-around",
+              marginTop: 50,
+              height: "100%",
+            }}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 20,
+              }}
+            >
+              Reminders
+            </Text>
+            <AddTodo add={handleTaskAdd} />
+            <View
+              style={{
+                backgroundColor: "white",
+                flex: 1,
+              }}
+            >
+              <TaskList
+                tasks={tasks}
+                closeRow={closeRow}
+                onDeleteTask={handleDeleteTask}
+              />
+            </View>
+            {isDatePickerVisible ? (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={new Date()}
+                // @ts-ignore
+                mode={currentDateTimePickerMode}
+                onChange={handleDateTimeChange}
+              />
+            ) : null}
+          </View>
+        )}
       </View>
 
-      {isDatePickerVisible ? (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={new Date()}
-          // @ts-ignore
-          mode={currentDateTimePickerMode}
-          onChange={handleDateTimeChange}
-        />
-      ) : null}
+      {/* Authenticate with Fingerprint Button */}
+      {!isAuthenticated && (
+        <View
+          style={{
+            justifyContent: "flex-end",
+            marginBottom: 20,
+            alignItems: "center",
+          }}
+        >
+          <Button
+            title="Authenticate with Fingerprint"
+            onPress={handleFingerprintAuth}
+          />
+        </View>
+      )}
     </View>
   );
 }
