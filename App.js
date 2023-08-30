@@ -7,6 +7,7 @@ import AddTodo from "./components/AddTodo";
 import TaskList from "./components/TaskList.js";
 import { getStorage, updateStorage } from "./api/localStorage";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { setupNotifications, scheduleNotification } from "./api/notification";
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
@@ -21,6 +22,7 @@ export default function App() {
       setTasks(storedTasks);
     }
     fetchTasks();
+    setupNotifications();
   }, []);
 
   const addTask = (dateTime) => {
@@ -32,7 +34,7 @@ export default function App() {
     });
 
     setTasks(newTasks);
-    scheduleNotification(dateTime, taskName, "Your task is due!");
+    scheduleNotification(dateTime, taskName, "Your task is due!"); // Schedule notification
     updateStorage(newTasks); // Save tasks to local storage
     setDateTimePickerMode("date");
   };
