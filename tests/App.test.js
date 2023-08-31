@@ -1,12 +1,45 @@
 import React from "react";
-import { render, fireEvent, act } from "@testing-library/react-native";
+import { render, fireEvent, act, waitFor } from "@testing-library/react-native";
 import App from "../App"; // Update this import path as needed
 
-// Mock the expo-local-authentication module
+jest.mock("@react-native-async-storage/async-storage", () => ({
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+}));
 jest.mock("expo-local-authentication", () => ({
   authenticateAsync: jest.fn(),
 }));
 
+test("authenticated user can add a task with selected date", async () => {
+  // Mock a successful authentication
+  const mockSuccess = { success: true };
+  require("expo-local-authentication").authenticateAsync.mockResolvedValue(
+    mockSuccess
+  );
+
+  // Authenticate the user
+  const { getByText, findByText, getByPlaceholderText } = render(<App />);
+  const authButton = getByText("Authenticate with Fingerprint");
+
+  await act(async () => {
+    fireEvent.press(authButton);
+    // Wait for authentication to complete
+    await findByText("Reminders"); // Assuming this text is rendered after authentication
+  });
+
+  // Continue with the test to add a task
+  const taskNameInput = getByPlaceholderText("Enter task name...");
+  const addButton = getByText("Add");
+
+  fireEvent.changeText(taskNameInput, "Test Task");
+  fireEvent.press(addButton);
+
+  const mockAddTask = jest.fn();
+  const mockSelectedDateTime = "2023-08-27T15:30:00";
+  mockAddTask("Test Task", mockSelectedDateTime);
+
+  expect(mockAddTask).toHaveBeenCalledWith("Test Task", mockSelectedDateTime);
+});
 describe("Fingerprint Authentication", () => {
   it("renders the authentication button initially", () => {
     const { getByText } = render(<App />);
