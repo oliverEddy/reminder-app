@@ -14,7 +14,7 @@ const TodoItem = ({ item: { timestamp, name } }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     marginVertical: 5,
     justifyContent: "center",
     alignItems: "center",
@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: "gray",
-    borderRadius: 8, // Same border radius as the button and text field
+    borderRadius: 8,
+    backgroundColor: "white", // Set background color to white
   },
 });
 

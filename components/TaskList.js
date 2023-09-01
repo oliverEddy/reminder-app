@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 60, // Adjust the width as needed
     height: "86%", // Fill the height of the task container
+    borderRadius: 8,
   },
   hiddenItemButtonText: {
     color: "white", // Customize the text color
