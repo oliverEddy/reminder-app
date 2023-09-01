@@ -125,6 +125,7 @@ export default function App() {
               style={{
                 textAlign: "center",
                 fontSize: 20,
+                marginTop: 25,
               }}
             >
               Reminders
@@ -133,6 +134,7 @@ export default function App() {
               style={{
                 backgroundColor: "white",
                 flex: 1,
+                marginTop: 20, // Adjust the margin as needed to create white space
               }}
             >
               <TaskList
