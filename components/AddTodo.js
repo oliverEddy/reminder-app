@@ -18,15 +18,20 @@ const AddTodo = ({ add }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.newContainer}>
+      {/* Container for Text Input */}
+      <View style={styles.textInputContainer}>
         <TextInput
           placeholder="Enter task name..."
-          style={styles.text}
+          style={styles.textInput}
           value={name}
           onChangeText={setName}
         />
       </View>
-      <Button title="Add" onPress={handleAddPress} />
+
+      {/* Container for "Add" Button */}
+      <View style={styles.addButtonContainer}>
+        <Button title="Add" onPress={handleAddPress} />
+      </View>
     </View>
   );
 };
@@ -35,10 +40,22 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: 40,
-    flexDirection: "row",
+    flexDirection: "column",
+    marginBottom: 50, // Adjust this value to move the entire container up
   },
-  newContainer: { flexGrow: 1 },
-  text: { width: "100%", height: "100%" },
+  addButtonContainer: {
+    marginBottom: 10, // Adjust this value for spacing between the button and text input
+  },
+  textInputContainer: {
+    marginBottom: 10, // Adjust this value for spacing between the text input and button
+  },
+  textInput: {
+    width: "100%",
+    height: "100%",
+    borderWidth: 1,
+    borderColor: "gray",
+    padding: 5,
+  },
 });
 
 export default AddTodo;

@@ -129,7 +129,6 @@ export default function App() {
             >
               Reminders
             </Text>
-            <AddTodo add={handleTaskAdd} />
             <View
               style={{
                 backgroundColor: "white",
@@ -142,6 +141,11 @@ export default function App() {
                 onDeleteTask={handleDeleteTask}
               />
             </View>
+
+            <View style={{ alignItems: "center", paddingBottom: 20 }}>
+              <AddTodo add={handleTaskAdd} />
+            </View>
+
             {isDatePickerVisible ? (
               <DateTimePicker
                 testID="dateTimePicker"
