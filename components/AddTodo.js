@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { TextInput, View, Button, StyleSheet } from "react-native";
+import {
+  TextInput,
+  View,
+  TouchableOpacity,
+  Button,
+  Text,
+  StyleSheet,
+} from "react-native";
 
 const AddTodo = ({ add }) => {
   const [name, setName] = useState("");
@@ -30,7 +37,9 @@ const AddTodo = ({ add }) => {
 
       {/* Container for "Add" Button */}
       <View style={styles.addButtonContainer}>
-        <Button title="Add" onPress={handleAddPress} />
+        <TouchableOpacity style={styles.addButton} onPress={handleAddPress}>
+          <Text style={styles.addButtonText}>Add</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -39,22 +48,42 @@ const AddTodo = ({ add }) => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 40,
-    flexDirection: "column",
-    marginBottom: 50, // Adjust this value to move the entire container up
+
+    marginBottom: 30, // Adjust this value to move the entire container up
   },
   addButtonContainer: {
-    marginBottom: 10, // Adjust this value for spacing between the button and text input
+    marginBottom: 10,
+    width: "80%",
+    justifyContent: "center",
+    alignSelf: "center",
+    border: "1px solid",
+    borderRadius: 8,
   },
   textInputContainer: {
-    marginBottom: 10, // Adjust this value for spacing between the text input and button
+    marginBottom: 20,
+    width: "80%",
+    justifyContent: "center",
+    alignSelf: "center",
   },
   textInput: {
     width: "100%",
-    height: "100%",
+    height: 70,
     borderWidth: 1,
     borderColor: "gray",
     padding: 5,
+    textAlign: "center",
+    borderRadius: 8,
+  },
+  addButton: {
+    backgroundColor: "blue", // Customize button color
+    borderRadius: 8, // Add border radius
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  addButtonText: {
+    color: "white", // Customize text color
+    textAlign: "center",
+    fontSize: 16,
   },
 });
 

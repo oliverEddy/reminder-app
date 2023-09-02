@@ -4,7 +4,7 @@ import React from "react";
 const TodoItem = ({ item: { timestamp, name } }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.contentContainer}>
+      <View style={styles.taskContainer}>
         <Text>{timestamp}</Text>
         <Text>{name}</Text>
       </View>
@@ -14,16 +14,19 @@ const TodoItem = ({ item: { timestamp, name } }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
-    height: 50,
-    flex: 1,
+    backgroundColor: "transparent",
+    marginVertical: 10,
     justifyContent: "center",
-  },
-  contentContainer: {
-    width: "100%",
-    flex: 1,
     alignItems: "center",
-    flexDirection: "row",
+  },
+  taskContainer: {
+    width: "80%", // Take up 80% of the screen
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 8,
+    backgroundColor: "white", // Set background color to white
   },
 });
+
 export default TodoItem;
