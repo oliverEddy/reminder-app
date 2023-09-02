@@ -27,11 +27,35 @@ export default function App() {
     setupNotifications();
   }, []);
 
+  const formatDate = (date) => {
+    const options = {
+      year: "2-digit",
+      month: "2-digit",
+      day: "2-digit",
+    };
+    return (
+      new Date(date).toLocaleDateString("en-US", options) +
+      " " +
+      formatAMPM(date)
+    );
+  };
+
+  // Function to format time as AM/PM
+  const formatAMPM = (date) => {
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Handle midnight (0:00)
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    return hours + ":" + minutes + " " + ampm;
+  };
+
   const addTask = (dateTime) => {
     const newTasks = [...tasks];
     newTasks.push({
       name: taskName,
-      timestamp: dateTime.toString(),
+      timestamp: formatDate(dateTime),
       key: new Date().getTime().toString(),
     });
 
