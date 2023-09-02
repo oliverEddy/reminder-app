@@ -1,6 +1,6 @@
 import { View, Pressable } from "react-native";
 import React from "react";
-import { MaterialIcons, Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const TodoItemButtons = (data, rowMap, deleteRow) => (
   <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}>
