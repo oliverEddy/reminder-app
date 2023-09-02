@@ -75,10 +75,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   addButton: {
-    backgroundColor: "blue", // Customize button color
+    backgroundColor: "#3498DB", // Customize button color
     borderRadius: 8, // Add border radius
     paddingVertical: 10,
     paddingHorizontal: 20,
+    elevation: 10,
   },
   addButtonText: {
     color: "white", // Customize text color
