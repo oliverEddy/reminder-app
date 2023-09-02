@@ -18,6 +18,7 @@ const TaskList = ({ tasks, closeRow, onDeleteTask }) => {
 
   return (
     <SwipeListView
+      style={styles.container}
       data={tasks}
       renderItem={TodoItem}
       renderHiddenItem={(hiddenData, rowMap) => (
@@ -41,7 +42,7 @@ const TaskList = ({ tasks, closeRow, onDeleteTask }) => {
 
 const styles = StyleSheet.create({
   // ...
-
+  container: { backgroundColor: " #f9f9f9" },
   hiddenItemContainer: {
     flex: 1,
     flexDirection: "row",
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     width: "90%", // Take up 80% of the screen
   },
   hiddenItemButton: {
-    backgroundColor: "red", // Customize the button color
+    backgroundColor: "#FF5555", // Customize the button color
     justifyContent: "center",
     alignItems: "center",
     width: 60, // Adjust the width as needed

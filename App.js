@@ -144,6 +144,7 @@ export default function App() {
               justifyContent: "space-around",
               marginTop: 50,
               height: "100%",
+              backgroundColor: " #f9f9f9",
             }}
           >
             <Text
