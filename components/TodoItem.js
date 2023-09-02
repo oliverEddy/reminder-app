@@ -15,7 +15,7 @@ const TodoItem = ({ item: { timestamp, name } }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "transparent",
-    marginVertical: 5,
+    marginVertical: 10,
     justifyContent: "center",
     alignItems: "center",
   },

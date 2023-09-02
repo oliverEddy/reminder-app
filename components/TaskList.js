@@ -33,7 +33,7 @@ const TaskList = ({ tasks, closeRow, onDeleteTask }) => {
           </TouchableOpacity>
         </View>
       )}
-      rightOpenValue={-130}
+      rightOpenValue={-60}
       // ...
     />
   );
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 60, // Adjust the width as needed
-    height: "86%", // Fill the height of the task container
+    height: "74%", // Fill the height of the task container
     borderRadius: 8,
   },
   hiddenItemButtonText: {
