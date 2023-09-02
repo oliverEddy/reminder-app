@@ -9,6 +9,7 @@ import { getStorage, updateStorage } from "./api/localStorage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { setupNotifications, scheduleNotification } from "./api/notification";
 import { authenticateAsync } from "expo-local-authentication";
+import AuthLanding from "./components/AuthLanding";
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
@@ -40,13 +41,12 @@ export default function App() {
     );
   };
 
-  // Function to format time as AM/PM
   const formatAMPM = (date) => {
     let hours = date.getHours();
     let minutes = date.getMinutes();
     const ampm = hours >= 12 ? "PM" : "AM";
     hours = hours % 12;
-    hours = hours ? hours : 12; // Handle midnight (0:00)
+    hours = hours ? hours : 12;
     minutes = minutes < 10 ? "0" + minutes : minutes;
     return hours + ":" + minutes + " " + ampm;
   };
@@ -60,8 +60,8 @@ export default function App() {
     });
 
     setTasks(newTasks);
-    scheduleNotification(dateTime, taskName, "Your task is due!"); // Schedule notification
-    updateStorage(newTasks); // Save tasks to local storage
+    scheduleNotification(dateTime, taskName, "Your task is due!");
+    updateStorage(newTasks);
     setDateTimePickerMode("date");
   };
 
@@ -109,13 +109,13 @@ export default function App() {
     const newDate = new Date(selectedDateTime);
     newDate.setHours(hours, minutes, seconds);
     setSelectedDateTime(newDate);
-    addTask(newDate); // Pass the updated selectedDateTime to addTask
+    addTask(newDate);
   };
 
   const handleDeleteTask = (itemKeyToDelete) => {
     const newTasks = tasks.filter((task) => task.key !== itemKeyToDelete);
     setTasks(newTasks);
-    updateStorage(newTasks); // Save tasks to local storage
+    updateStorage(newTasks);
   };
 
   const handleFingerprintAuth = async () => {
@@ -131,11 +131,12 @@ export default function App() {
     }
   };
 
+  // ... (previous code)
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
-        {/* Display Tasks if Authenticated */}
-        {isAuthenticated && (
+        {isAuthenticated ? (
           <View
             style={{
               flex: 1,
@@ -158,7 +159,7 @@ export default function App() {
               style={{
                 backgroundColor: "white",
                 flex: 1,
-                marginTop: 20, // Adjust the margin as needed to create white space
+                marginTop: 20,
               }}
             >
               <TaskList
@@ -176,30 +177,18 @@ export default function App() {
               <DateTimePicker
                 testID="dateTimePicker"
                 value={new Date()}
-                // @ts-ignore
                 mode={currentDateTimePickerMode}
                 onChange={handleDateTimeChange}
               />
             ) : null}
           </View>
+        ) : (
+          <AuthLanding
+            onAuthenticationSuccess={() => setIsAuthenticated(true)}
+            handleFingerprintAuth={handleFingerprintAuth}
+          />
         )}
       </View>
-
-      {/* Authenticate with Fingerprint Button */}
-      {!isAuthenticated && (
-        <View
-          style={{
-            justifyContent: "flex-end",
-            marginBottom: 20,
-            alignItems: "center",
-          }}
-        >
-          <Button
-            title="Authenticate with Fingerprint"
-            onPress={handleFingerprintAuth}
-          />
-        </View>
-      )}
     </View>
   );
 }
