@@ -25,7 +25,6 @@ const AddTodo = ({ add }) => {
 
   return (
     <View style={styles.container}>
-      {/* Container for Text Input */}
       <View style={styles.textInputContainer}>
         <TextInput
           placeholder="Enter task name..."
@@ -35,7 +34,6 @@ const AddTodo = ({ add }) => {
         />
       </View>
 
-      {/* Container for "Add" Button */}
       <View style={styles.addButtonContainer}>
         <TouchableOpacity style={styles.addButton} onPress={handleAddPress}>
           <Text style={styles.addButtonText}>Add</Text>
@@ -49,7 +47,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
 
-    marginBottom: 30, // Adjust this value to move the entire container up
+    marginBottom: 30,
   },
   addButtonContainer: {
     marginBottom: 10,
@@ -75,14 +73,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   addButton: {
-    backgroundColor: "#3498DB", // Customize button color
-    borderRadius: 8, // Add border radius
+    backgroundColor: "#3498DB",
+    borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 20,
     elevation: 10,
   },
   addButtonText: {
-    color: "white", // Customize text color
+    color: "white",
     textAlign: "center",
     fontSize: 16,
   },

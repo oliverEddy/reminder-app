@@ -24,10 +24,10 @@ test("authenticated user can add a task with selected date", async () => {
   await act(async () => {
     fireEvent.press(authButton);
     // Wait for authentication to complete
-    await findByText("Reminders"); // Assuming this text is rendered after authentication
+    await findByText("Reminders");
   });
 
-  // Continue with the test to add a task
+  // Continue with the test to add a task with selected date and time
   const taskNameInput = getByPlaceholderText("Enter task name...");
   const addButton = getByText("Add");
 
@@ -60,7 +60,7 @@ describe("Fingerprint Authentication", () => {
     await act(async () => {
       fireEvent.press(authButton);
       // Wait for authentication to complete
-      await findByText("Reminders"); // Assuming this text is rendered after authentication
+      await findByText("Reminders");
     });
 
     await act(async () => {
@@ -84,6 +84,6 @@ describe("Fingerprint Authentication", () => {
     // Wait for authentication to complete
     await findByText("Authenticate with Fingerprint"); // Button should still be rendered
 
-    expect(authButton).toBeTruthy(); // Button should be rendered
+    expect(authButton).toBeTruthy();
   });
 });

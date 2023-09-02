@@ -3,19 +3,9 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import TodoItem from "./TodoItem";
-import {
-  TextInput,
-  View,
-  TouchableOpacity,
-  Button,
-  Text,
-  StyleSheet,
-} from "react-native";
-import TodoItemButtons from "./TodoItemButtons";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 
 const TaskList = ({ tasks, closeRow, onDeleteTask }) => {
-  // ...
-
   return (
     <SwipeListView
       style={styles.container}
@@ -35,7 +25,6 @@ const TaskList = ({ tasks, closeRow, onDeleteTask }) => {
         </View>
       )}
       rightOpenValue={-60}
-      // ...
     />
   );
 };
@@ -48,18 +37,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
-    width: "90%", // Take up 80% of the screen
+    width: "90%",
   },
   hiddenItemButton: {
-    backgroundColor: "#FF5555", // Customize the button color
+    backgroundColor: "#FF5555",
     justifyContent: "center",
     alignItems: "center",
-    width: 60, // Adjust the width as needed
-    height: "74%", // Fill the height of the task container
+    width: 60,
+    height: "74%",
     borderRadius: 8,
   },
   hiddenItemButtonText: {
-    color: "white", // Customize the text color
+    color: "white",
   },
 });
 

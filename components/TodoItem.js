@@ -20,21 +20,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   taskContainer: {
-    width: "80%", // Take up 80% of the screen
+    width: "80%",
     padding: 10,
     borderWidth: 1,
     borderColor: "gray",
     borderRadius: 8,
-    backgroundColor: "white", // Set background color to white
+    backgroundColor: "white",
   },
   taskName: {
-    fontSize: 18, // Customize font size for the task name
-    fontWeight: "bold", // Optional: Add bold style
-    marginBottom: 5, // Optional: Add margin between name and date
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
     textAlign: "center",
   },
   taskDate: {
-    fontSize: 16, // Customize font size for the date
+    fontSize: 16,
     textAlign: "center",
   },
 });

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button } from "react-native";
-import { SwipeListView } from "react-native-swipe-list-view";
-import TodoItem from "./components/TodoItem";
-import TodoItemButtons from "./components/TodoItemButtons";
+import { View, Text } from "react-native";
 import AddTodo from "./components/AddTodo";
 import TaskList from "./components/TaskList.js";
 import { getStorage, updateStorage } from "./api/localStorage";
@@ -130,8 +127,6 @@ export default function App() {
       // Handle error
     }
   };
-
-  // ... (previous code)
 
   return (
     <View style={{ flex: 1 }}>
