@@ -20,7 +20,7 @@ const TaskList = ({ tasks, closeRow, onDeleteTask }) => {
               onDeleteTask(hiddenData.item.key);
             }}
           >
-            <MaterialIcons name="delete" color="white" size={24} />
+            <MaterialIcons style={styles.deleteIcon} name="delete" />
           </TouchableOpacity>
         </View>
       )}
@@ -49,6 +49,10 @@ const styles = StyleSheet.create({
   },
   hiddenItemButtonText: {
     color: "white",
+  },
+  deleteIcon: {
+    color: "white",
+    fontSize: 24,
   },
 });
 

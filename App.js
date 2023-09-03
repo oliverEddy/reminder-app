@@ -7,6 +7,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { setupNotifications, scheduleNotification } from "./api/notification";
 import { authenticateAsync } from "expo-local-authentication";
 import AuthLanding from "./components/AuthLanding";
+import { StyleSheet } from "react-native";
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
@@ -129,62 +130,63 @@ export default function App() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        {isAuthenticated ? (
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              justifyContent: "space-around",
-              marginTop: 50,
-              height: "100%",
-              backgroundColor: " #f9f9f9",
-            }}
-          >
-            <Text
-              style={{
-                textAlign: "center",
-                fontSize: 20,
-                marginTop: 25,
-              }}
-            >
-              Reminders
-            </Text>
-            <View
-              style={{
-                backgroundColor: "white",
-                flex: 1,
-                marginTop: 20,
-              }}
-            >
-              <TaskList
-                tasks={tasks}
-                closeRow={closeRow}
-                onDeleteTask={handleDeleteTask}
-              />
-            </View>
-
-            <View style={{ alignItems: "center", paddingBottom: 20 }}>
-              <AddTodo add={handleTaskAdd} />
-            </View>
-
-            {isDatePickerVisible ? (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={new Date()}
-                mode={currentDateTimePickerMode}
-                onChange={handleDateTimeChange}
-              />
-            ) : null}
+    <View style={styles.container}>
+      {isAuthenticated ? (
+        <View style={styles.taskView}>
+          <Text style={styles.title}>Reminders</Text>
+          <View style={styles.listView}>
+            <TaskList
+              tasks={tasks}
+              closeRow={closeRow}
+              onDeleteTask={handleDeleteTask}
+            />
           </View>
-        ) : (
-          <AuthLanding
-            onAuthenticationSuccess={() => setIsAuthenticated(true)}
-            handleFingerprintAuth={handleFingerprintAuth}
-          />
-        )}
-      </View>
+          <View style={styles.addButtonView}>
+            <AddTodo add={handleTaskAdd} />
+          </View>
+          {isDatePickerVisible ? (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={new Date()}
+              mode={currentDateTimePickerMode}
+              onChange={handleDateTimeChange}
+            />
+          ) : null}
+        </View>
+      ) : (
+        <AuthLanding
+          onAuthenticationSuccess={() => setIsAuthenticated(true)}
+          handleFingerprintAuth={handleFingerprintAuth}
+        />
+      )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  taskView: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-around",
+    marginTop: 50,
+    height: "100%",
+    backgroundColor: "#f9f9f9",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: 20,
+    marginTop: 25,
+  },
+  listView: {
+    backgroundColor: "#f9f9f9",
+    flex: 1,
+    marginTop: 20,
+  },
+  addButtonView: {
+    alignItems: "center",
+    paddingBottom: 20,
+  },
+});
