@@ -24,7 +24,7 @@ const TaskList = ({ tasks, closeRow, onDeleteTask }) => {
           </TouchableOpacity>
         </View>
       )}
-      rightOpenValue={-60}
+      rightOpenValue={-100}
     />
   );
 };
