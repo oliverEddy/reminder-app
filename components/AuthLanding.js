@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 const AuthLanding = ({ onAuthenticationSuccess, handleFingerprintAuth }) => {
   return (
@@ -51,23 +51,23 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
     color: "black",
-    marginBottom: 10, // Add space between the lines
+    marginBottom: 10,
     fontStyle: "italic",
   },
   buttonContainer: {
-    marginBottom: 40, // Adjust the margin to move the button up
+    marginBottom: 40,
     fontSize: "24",
   },
   authButton: {
-    backgroundColor: "#3498DB", // Customize the button's background color
-    padding: 18, // Adjust padding to change button size
-    borderRadius: 8, // Add border radius for rounded corners
-    marginBottom: 55, // Adjust
+    backgroundColor: "#3498DB",
+    padding: 18,
+    borderRadius: 8,
+    marginBottom: 55,
     elevation: 10,
   },
   buttonText: {
-    color: "white", // Customize the button text color
-    fontSize: 18, // Customize the button text size
+    color: "white",
+    fontSize: 18,
     fontWeight: "500",
   },
 });

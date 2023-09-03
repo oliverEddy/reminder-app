@@ -19,15 +19,15 @@ test("authenticated user can add a task with selected date", async () => {
 
   // Authenticate the user
   const { getByText, findByText, getByPlaceholderText } = render(<App />);
-  const authButton = getByText("Authenticate with Fingerprint");
+  const authButton = getByText("Unlock with Fingerprint");
 
   await act(async () => {
     fireEvent.press(authButton);
     // Wait for authentication to complete
-    await findByText("Reminders"); // Assuming this text is rendered after authentication
+    await findByText("Reminders");
   });
 
-  // Continue with the test to add a task
+  // Continue with the test to add a task with selected date and time
   const taskNameInput = getByPlaceholderText("Enter task name...");
   const addButton = getByText("Add");
 
@@ -43,7 +43,7 @@ test("authenticated user can add a task with selected date", async () => {
 describe("Fingerprint Authentication", () => {
   it("renders the authentication button initially", () => {
     const { getByText } = render(<App />);
-    const authButton = getByText("Authenticate with Fingerprint");
+    const authButton = getByText("Unlock with Fingerprint");
     expect(authButton).toBeTruthy();
   });
 
@@ -55,17 +55,17 @@ describe("Fingerprint Authentication", () => {
     );
 
     const { getByText, findByText, queryByText } = render(<App />);
-    const authButton = getByText("Authenticate with Fingerprint");
+    const authButton = getByText("Unlock with Fingerprint");
 
     await act(async () => {
       fireEvent.press(authButton);
       // Wait for authentication to complete
-      await findByText("Reminders"); // Assuming this text is rendered after authentication
+      await findByText("Reminders");
     });
 
     await act(async () => {
       // Check if the authentication button is still in the DOM
-      const updatedAuthButton = queryByText("Authenticate with Fingerprint");
+      const updatedAuthButton = queryByText("Unlock with Fingerprint");
       expect(updatedAuthButton).toBeNull(); // Button should not be rendered
     });
   });
@@ -78,12 +78,12 @@ describe("Fingerprint Authentication", () => {
     );
 
     const { getByText, findByText } = render(<App />);
-    const authButton = getByText("Authenticate with Fingerprint");
+    const authButton = getByText("Unlock with Fingerprint");
     fireEvent.press(authButton);
 
     // Wait for authentication to complete
-    await findByText("Authenticate with Fingerprint"); // Button should still be rendered
+    await findByText("Unlock with Fingerprint"); // Button should still be rendered
 
-    expect(authButton).toBeTruthy(); // Button should be rendered
+    expect(authButton).toBeTruthy();
   });
 });
